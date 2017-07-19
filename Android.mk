@@ -70,9 +70,24 @@ LOCAL_SRC_FILES += \
 	src/types.c \
 	src/closures.c
 
-$(LOCAL_PATH)/src/$(TARGET_ARCH)-dummy.c:
-	./autogen.sh && ./configure --host=$(FFI_ARCH)-and-linux-gnu
-	echo "" > src/$(TARGET_ARCH)-dummy.c
+$(LOCAL_PATH)/configure:
+	$(LOCAL_PATH)/autogen.sh
+
+$(LOCAL_PATH)/src/arm-dummy.c: $(LOCAL_PATH)/configure
+	$(LOCAL_PATH)/configure --host=arm-and-linux-gnu
+	echo "" > src/arm-dummy.c
+
+$(LOCAL_PATH)/src/arm64-dummy.c: $(LOCAL_PATH)/configure
+	$(LOCAL_PATH)/configure --host=aarch64-and-linux-gnu
+	echo "" > src/arm64-dummy.c
+
+$(LOCAL_PATH)/src/x86-dummy.c: $(LOCAL_PATH)/configure
+	$(LOCAL_PATH)/configure --host=i686-and-linux-gnu
+	echo "" > src/x86-dummy.c
+
+$(LOCAL_PATH)/src/x86_64-dummy.c: $(LOCAL_PATH)/configure
+	$(LOCAL_PATH)/configure --host=x86_64-and-linux-gnu
+	echo "" > src/x86_64-dummy.c
 
 LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE := libffi
